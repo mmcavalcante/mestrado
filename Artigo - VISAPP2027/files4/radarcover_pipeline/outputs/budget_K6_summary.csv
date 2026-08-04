@@ -1,0 +1,9 @@
+method,budget_K,n_models,psnr_mean_over_regimes,avg_rank
+Top-K,6,6,18.94373127470674,1.0
+RadarCover-Multicover,6,2,18.667168829035447,2.5
+Best-Single,6,1,18.61507344584354,3.25
+Full-Ensemble,6,12,18.592559004552314,3.5
+Diversity-Based,6,6,18.438248312962756,4.75
+Pareto-Pruning,6,4,18.065335115211607,6.625
+Traditional-Set-Cover,6,2,18.053173845610413,6.75
+Random-Pruning,6,6,17.931713256262384,7.625
