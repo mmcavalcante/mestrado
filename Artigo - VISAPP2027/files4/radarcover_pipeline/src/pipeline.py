@@ -217,7 +217,7 @@ def run_pipeline(cfg: dict) -> dict:
     log(f"Pipeline concluído em {elapsed:.1f}s. Resultados em: {out_dir}")
 
     return {
-        "profile_table": prof_df,
+        "profile_table": prep["prof_df"],
         "results_table": results_df,
         "coverage_matrix": problem.alpha,
         "regime_ids": regime_ids,

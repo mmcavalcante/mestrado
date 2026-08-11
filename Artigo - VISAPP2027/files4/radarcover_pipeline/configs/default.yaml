@@ -2,7 +2,7 @@
 # Escala reduzida para rodar em CPU único / poucos GB de RAM em minutos.
 # Para experimentos de publicação, ver comentários "ESCALAR PARA PAPER" abaixo.
 
-images_dir: "data/IPMet-Radar-Dataset/images"
+images_dir: "../../IPMet-Radar-Dataset/images"
 output_dir: "outputs"
 seed: 42
 
