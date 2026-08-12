@@ -68,22 +68,22 @@ configuração de escala plena (`ESCALAR PARA PAPER` em `configs/default.yaml`)
 prevê treino em GPU por milhares de iterações sobre o dataset completo.
 
 **Tabela 4.1** — Visão geral do pool de modelos candidatos (métricas médias
-sobre todos os regimes perfilados, execução de demonstração).
+sobre os 16 regimes perfilados, dataset completo de 4.014 frames).
 
 | Modelo | Parâmetros | PSNR médio (dB) | SSIM médio | FSS médio | CSI médio | Recall médio | Latência (ms) |
 |---|---|---|---|---|---|---|---|
-| SRCNN#1 | 4.721 | 18,61 | 0,602 | 0,914 | 0,698 | 0,996 | 27,44 |
-| SRCNN#0 | 4.721 | 17,96 | 0,638 | 0,899 | 0,668 | 0,996 | 27,51 |
-| ESPCN#1 | 3.316 | 17,52 | 0,614 | 0,895 | 0,659 | 0,991 | 3,38 |
-| ESPCN#0 | 3.316 | 17,50 | 0,624 | 0,894 | 0,664 | 0,992 | 3,40 |
-| SwinIR-Light-Lite#0 | 4.825 | 17,47 | 0,368 | 0,901 | 0,639 | 0,987 | 20,62 |
-| EDSR-Lite#1 | 8.077 | 16,53 | 0,387 | 0,878 | 0,610 | 0,979 | 32,08 |
-| RLFN-Lite#1 | 1.396 | 16,17 | 0,441 | 0,889 | 0,616 | 0,964 | 1,59 |
-| EDSR-Lite#0 | 8.077 | 15,39 | 0,333 | 0,896 | 0,602 | 0,935 | 35,92 |
-| CRMN-Lite#0 | 1.374 | 14,55 | 0,170 | 0,838 | 0,532 | 0,929 | 3,23 |
-| RLFN-Lite#0 | 1.396 | 14,33 | 0,307 | 0,865 | 0,542 | 0,886 | 1,64 |
-| CRMN-Lite#1 | 1.374 | 14,03 | 0,170 | 0,844 | 0,525 | 0,905 | 3,64 |
-| SwinIR-Light-Lite#1 | 4.825 | 13,98 | 0,138 | 0,861 | 0,505 | 0,878 | 22,72 |
+| SRCNN#1 | 4.721 | 19,21 | 0,705 | 0,924 | 0,739 | 0,995 | 12,21 |
+| ESPCN#1 | 3.316 | 18,31 | 0,653 | 0,900 | 0,689 | 0,989 | 2,04 |
+| SwinIR-Light-Lite#0 | 4.825 | 18,20 | 0,501 | 0,927 | 0,709 | 0,980 | 9,86 |
+| SRCNN#0 | 4.721 | 17,67 | 0,539 | 0,889 | 0,670 | 0,985 | 13,79 |
+| ESPCN#0 | 3.316 | 17,66 | 0,510 | 0,884 | 0,669 | 0,994 | 1,89 |
+| EDSR-Lite#1 | 8.077 | 17,66 | 0,396 | 0,903 | 0,664 | 0,974 | 21,33 |
+| RLFN-Lite#1 | 1.396 | 17,09 | 0,435 | 0,900 | 0,664 | 0,972 | 1,04 |
+| EDSR-Lite#0 | 8.077 | 16,63 | 0,368 | 0,906 | 0,660 | 0,957 | 16,72 |
+| CRMN-Lite#0 | 1.374 | 15,79 | 0,350 | 0,858 | 0,599 | 0,956 | 1,45 |
+| RLFN-Lite#0 | 1.396 | 15,69 | 0,246 | 0,873 | 0,605 | 0,939 | 0,86 |
+| CRMN-Lite#1 | 1.374 | 14,91 | 0,237 | 0,858 | 0,579 | 0,921 | 1,45 |
+| SwinIR-Light-Lite#1 | 4.825 | 14,61 | 0,306 | 0,902 | 0,602 | 0,884 | 11,54 |
 
 ## 4.5 Construção de regimes e profiling
 
@@ -164,7 +164,12 @@ completos, por orçamento $K$, estão na Seção 5.3.
 
 ## 4.9 Hardware
 
-Execução de demonstração: 1 vCPU, ~3,9 GB RAM, sem GPU. Tempo total de
-execução: pipeline principal ≈50s; ablation study ≈43s; estudo
-multi-orçamento completo ($K\in\{2,4,6\}$, 3 seeds, 8 métodos, 16 regimes)
-≈116s.
+Execução sobre o dataset completo (4.014 frames): 1 vCPU, ~3,9 GB RAM, sem
+GPU. Os modelos candidatos foram treinados em NumPy puro com
+retropropagação manual (60 iterações por modelo), configuração de
+**demonstração** no que diz respeito ao treinamento dos modelos candidatos;
+a configuração de escala plena (`ESCALAR PARA PAPER` em
+`configs/default.yaml`) prevê treino em GPU por milhares de iterações. O
+pipeline de avaliação (profiling, cobertura, multicover, multi-orçamento,
+teste estatístico) processou a totalidade dos 4.014 frames disponíveis no
+subconjunto público do IPMet Radar Dataset.

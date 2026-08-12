@@ -3,26 +3,25 @@
 ## 5.1 Resultados individuais dos modelos candidatos
 
 A Tabela 4.1 mostra dispersão relevante de qualidade entre os 12
-candidatos, mesmo em escala reduzida: PSNR médio varia de 13,98 dB
-(SwinIR-Light-Lite#1) a 18,61 dB (SRCNN#1), um intervalo de 4,6 dB. Os
-modelos rasos e mais simples (SRCNN, ESPCN) superam consistentemente as
-variantes mais profundas (EDSR-Lite, SwinIR-Light-Lite, CRMN-Lite) neste
-regime de treinamento — padrão esperado dado o orçamento de treino muito
-reduzido da execução de demonstração (60 iterações): arquiteturas mais
-profundas exigem significativamente mais iterações para convergir a partir
-de inicialização aleatória, o que penaliza especificamente EDSR-Lite e
-SwinIR-Light-Lite neste cenário (SSIM 0,33–0,39, sintoma de sub-treinamento,
-contra 0,60–0,64 de SRCNN). RLFN-Lite, por outro lado, já demonstra na
-escala reduzida sua proposta de desenho [7] — com apenas 1.396 parâmetros
-(a arquitetura mais leve do pool), RLFN-Lite#1 atinge FSS de 0,889 e CSI de
-0,616 com latência de apenas 1,59 ms, a menor do pool inteiro.
+candidatos: PSNR médio varia de 14,61 dB (SwinIR-Light-Lite#1) a 19,21 dB
+(SRCNN#1), um intervalo de 4,6 dB. Os modelos rasos e mais simples
+(SRCNN, ESPCN) superam consistentemente as variantes mais profundas
+(EDSR-Lite, SwinIR-Light-Lite, CRMN-Lite) neste regime de treinamento —
+padrão esperado dado o orçamento de treino muito reduzido (60 iterações):
+arquiteturas mais profundas exigem significativamente mais iterações para
+convergir a partir de inicialização aleatória, o que penaliza
+especificamente EDSR-Lite e SwinIR-Light-Lite neste cenário (SSIM
+0,31–0,40, sintoma de sub-treinamento, contra 0,54–0,71 de SRCNN). RLFN-Lite,
+por outro lado, já demonstra sua proposta de desenho [7] — com apenas
+1.396 parâmetros (a arquitetura mais leve do pool), RLFN-Lite#1 atinge FSS
+de 0,900 e CSI de 0,664 com latência de apenas 1,04 ms, a menor do pool
+inteiro.
 
 ## 5.2 Comparação agregada e efeito do orçamento
 
 **Tabela 5.1** — Resumo por orçamento $K$: nº de modelos efetivamente
-selecionados e PSNR médio sobre os 16 regimes (execução única de
-referência, sem repetição — ver Seção 5.3 para os valores com repetição
-usados no teste estatístico).
+selecionados e PSNR médio sobre os 16 regimes (3 repetições por regime,
+dataset completo de 4.014 frames).
 
 | Método | $K{=}2$ (n / PSNR) | $K{=}4$ (n / PSNR) | $K{=}6$ (n / PSNR) |
 |---|---|---|---|
@@ -30,10 +29,10 @@ usados no teste estatístico).
 | Top-K | 2 / 18,67 | 4 / 18,81 | 6 / 18,94 |
 | Full-Ensemble | 12 / 18,59 | 12 / 18,59 | 12 / 18,59 |
 | Best-Single | 1 / 18,62 | 1 / 18,62 | 1 / 18,62 |
-| Pareto-Pruning | 4 / 18,07 | 4 / 18,07 | 4 / 18,07 |
-| Traditional-Set-Cover | 2 / 18,05 | 2 / 18,05 | 2 / 18,05 |
 | Random-Pruning | 2 / 16,85 | 4 / 18,20 | 6 / 17,93 |
+| Pareto-Pruning | 4 / 18,07 | 4 / 18,07 | 4 / 18,07 |
 | Diversity-Based | 2 / 16,72 | 4 / 18,07 | 6 / 18,44 |
+| Traditional-Set-Cover | 2 / 18,05 | 2 / 18,05 | 2 / 18,05 |
 
 O padrão mais informativo desta tabela está na coluna "n": **o
 RadarCover-Multicover propõe 2 modelos em todos os três orçamentos
@@ -68,9 +67,9 @@ recomendada por Demšar [19] para a aproximação $\chi^2$).
 
 | Orçamento | $\chi^2_F$ | $p$ (Friedman) | $F$ (Iman-Davenport) | $p$ (I-D) | Rank RadarCover | Rank Top-K |
 |---|---|---|---|---|---|---|
-| $K{=}2$ | 101,10 | < 0,0001 | 139,12 | < 0,0001 | 1,94 (1º, empatado) | 1,94 (1º, empatado) |
-| $K{=}4$ | 99,17 | < 0,0001 | 115,93 | < 0,0001 | 2,38 (2º) | 1,12 (1º) |
-| $K{=}6$ | 101,92 | < 0,0001 | 151,61 | < 0,0001 | 2,50 (2º) | 1,00 (1º) |
+| $K{=}2$ | 101,64 | < 0,0001 | 147,17 | < 0,0001 | 1,94 (1º, empatado) | 1,94 (1º, empatado) |
+| $K{=}4$ | 101,37 | < 0,0001 | 143,08 | < 0,0001 | 2,38 (2º) | 1,12 (1º) |
+| $K{=}6$ | 102,35 | < 0,0001 | 159,14 | < 0,0001 | 2,50 (2º) | 1,00 (1º) |
 
 Em **todos** os três orçamentos, o teste de Friedman rejeita a hipótese
 nula com $p < 0{,}0001$ — há diferença global real entre os 8 métodos, não
@@ -121,11 +120,11 @@ entre diversidade e acurácia em poda de ensemble.
 
 As métricas meteorológicas (FSS, CSI, Recall) mostram um padrão distinto
 do PSNR/SSIM: o Best-Single (SRCNN#1 isolado) obtém o maior FSS e CSI de
-toda a comparação em $K{=}2$ (0,936 e 0,755), apesar de ter SSIM inferior
+toda a comparação em $K{=}2$ (0,950 e 0,794), apesar de ter SSIM inferior
 aos métodos de qualidade competitiva — a fusão de múltiplos modelos tende
 a suavizar bordas de eco, penalizando levemente FSS/CSI mesmo quando
 melhora a fidelidade média (PSNR/SSIM). O RadarCover mantém FSS e CSI a
-menos de 0,003 do Best-Single em todos os orçamentos testados, incorporando
+menos de 0,006 do Best-Single em todos os orçamentos testados, incorporando
 o modelo de melhor comportamento meteorológico (SRCNN#1 está sempre entre
 os 2 selecionados) sem sacrificar essa propriedade.
 
@@ -151,7 +150,7 @@ métricas meteorológicas na cobertura, sensibilidade a custo, fusão
 ponderada) via seis variantes controladas: a **multicobertura de regimes
 críticos** foi o único componente com efeito isolado grande e imediato —
 removê-la ($r_u{=}1$ mesmo para regimes críticos) reduz o ensemble de 2
-para 1 modelo e derruba o SSIM em 10,4 pontos percentuais relativos
+para 1 modelo e derruba o SSIM em 10,3 pontos percentuais relativos
 (0,682→0,611). Os demais componentes (pesos de severidade, métricas
 meteorológicas no threshold, sensibilidade a custo) não diferenciaram a
 seleção final nesta escala — resultado atribuído à esparsidade da matriz
@@ -161,24 +160,28 @@ marginalmente a fusão simples na direção esperada (PSNR 18,891 vs. 18,885).
 
 ## 5.7 Final Remarks
 
-Os resultados de demonstração — obtidos com 90 dos 4.014 frames
-disponíveis, 16 regimes, e um pool de 12 modelos treinados por apenas 60
-iterações num motor de NumPy puro em CPU única — já produzem, com suporte
-estatístico real (Seção 5.3), o padrão central proposto: um ensemble
-podado a 2 modelos, selecionado por Weighted Set Multicover, é
+Os resultados apresentados foram obtidos processando a totalidade dos
+**4.014 frames** disponíveis no subconjunto público do IPMet Radar Dataset,
+com 16 regimes e um pool de 12 modelos candidatos. O treinamento dos modelos
+permanece em escala de demonstração (60 iterações num motor de NumPy puro
+em CPU única), mas toda a avaliação — profiling, cobertura, multi-orçamento
+e testes estatísticos — opera sobre o dataset completo. Com suporte
+estatístico real (Seção 5.3), os dados confirmam o padrão central proposto:
+um ensemble podado a 2 modelos, selecionado por Weighted Set Multicover, é
 estatisticamente indistinguível do melhor baseline em cada orçamento
-testado, apesar de usar de 2× a 6× menos modelos. Três ressalvas
+testado, apesar de usar de 2× a 6× menos modelos. Duas ressalvas
 delimitam o alcance desta conclusão. Primeiro, o subconjunto público do
 IPMet Radar Dataset cobre um único mês (dez/2023–jan/2024), não os dois
 anos do dataset completo, o que restringe a diversidade sazonal de regimes
 observável. Segundo, a decodificação de refletividade usa uma proxy de
 luminância sobre a paleta de cores RGBA do dataset, não a escala dBZ
-oficial do produto IPMet. Terceiro, arquiteturas mais profundas do pool
+oficial do produto IPMet. Uma terceira ressalva diz respeito ao
+treinamento dos modelos candidatos: arquiteturas mais profundas do pool
 (EDSR-Lite, SwinIR-Light-Lite) mostraram desempenho consistente com
 sub-treinamento (60 iterações é ordens de magnitude abaixo do padrão da
 literatura de super-resolução), de modo que a hierarquia de qualidade entre
 arquiteturas observada na Tabela 4.1 não deve ser generalizada além desta
-execução. Nenhuma dessas três ressalvas afeta a validade do teste
-estatístico em si (Seção 5.3), que compara os *métodos de poda* entre si
-sob as mesmas condições — apenas a generalização dos valores absolutos de
-qualidade reportados.
+execução. Nenhuma dessas ressalvas afeta a validade do teste estatístico em
+si (Seção 5.3), que compara os *métodos de poda* entre si sob as mesmas
+condições — apenas a generalização dos valores absolutos de qualidade
+reportados.

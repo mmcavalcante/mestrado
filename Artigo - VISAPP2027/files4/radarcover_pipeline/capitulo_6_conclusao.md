@@ -9,7 +9,8 @@ uma única comparação agregada — sem suporte estatístico — por uma avalia
 sob três orçamentos de ensemble ($K{=}2,4,6$) com teste de Friedman e
 post-hoc de Nemenyi, usando os 16 regimes meteorológicos como unidade de
 comparação independente, no mesmo papel que os $N$ datasets desempenham no
-artigo-modelo.
+artigo-modelo. Os resultados foram obtidos processando a totalidade dos
+**4.014 frames** disponíveis no subconjunto público do IPMet Radar Dataset.
 
 Os resultados respondem às três perguntas de pesquisa do Capítulo 1 com
 suporte estatístico real, não apenas estimativas pontuais:
@@ -48,14 +49,15 @@ como maximização incondicional de qualidade sob um orçamento de modelos.
 
 ## Limitações centrais a superar
 
-Os resultados foram obtidos em escala de demonstração (90 de 4.014 frames,
-16 de 30–50 regimes planejados, 12 modelos treinados por 60 iterações em
-CPU) — ver Seção 5.7 (Final Remarks) para a discussão completa. Essas
-limitações são de escala de execução, não de desenho metodológico: o
-código do pipeline (Seções 2–4) e a infraestrutura de teste estatístico
-(Seção 4.8) foram construídos para que a transição à escala plena exija
-apenas alteração de parâmetros de configuração e a porta dos modelos
-candidatos para um framework de deep learning acelerado por GPU.
+Embora a avaliação tenha processado a totalidade dos 4.014 frames
+disponíveis, o treinamento dos 12 modelos candidatos permanece em escala de
+demonstração (60 iterações em motor de NumPy puro, CPU) — ver Seção 5.7
+(Final Remarks) para a discussão completa. Essa limitação é de escala de
+treinamento, não de desenho metodológico: o código do pipeline (Seções 2–4)
+e a infraestrutura de teste estatístico (Seção 4.8) foram construídos para
+que a transição à escala plena de treinamento exija apenas a porta dos
+modelos candidatos para um framework de deep learning acelerado por GPU e
+o aumento do número de iterações.
 
 ## Trabalhos futuros
 
@@ -75,18 +77,18 @@ de sistemas de precipitação.
 a incerteza de estimação — naturalmente maior em regimes com poucas
 amostras — para a própria decisão de seleção do Multicover.
 
-**Validação em escala plena com o mesmo protocolo estatístico.** O passo
-mais direto: repetir exatamente o desenho experimental desta seção
-(múltiplos orçamentos, Friedman + Nemenyi sobre regimes) com os 4.014
-frames completos, 30–50 regimes e modelos treinados em GPU — o que deve,
-por si só, esclarecer se a ponderação por severidade e as métricas
-meteorológicas na cobertura (RQ2) se diferenciam estatisticamente numa
-matriz de cobertura menos esparsa, e se a vantagem de custo do RadarCover
-sobre o Top-K se mantém, cresce ou se inverte à medida que o pool de
-candidatos cresce — replicando, para o domínio de radar meteorológico, a
-mesma pergunta que [16] respondeu para classificação e regressão
-tabular: a vantagem da poda estruturada sobre o ensemble completo escala
-com o tamanho do pool, ou é um efeito específico de pools pequenos?
+**Validação com treinamento em escala plena e mesmo protocolo estatístico.**
+O passo mais direto: repetir exatamente o desenho experimental desta seção
+(múltiplos orçamentos, Friedman + Nemenyi sobre regimes) com modelos
+treinados em GPU por milhares de iterações e, opcionalmente, 30–50 regimes
+— o que deve, por si só, esclarecer se a ponderação por severidade e as
+métricas meteorológicas na cobertura (RQ2) se diferenciam estatisticamente
+numa matriz de cobertura menos esparsa, e se a vantagem de custo do
+RadarCover sobre o Top-K se mantém, cresce ou se inverte à medida que o
+pool de candidatos cresce — replicando, para o domínio de radar
+meteorológico, a mesma pergunta que [16] respondeu para classificação e
+regressão tabular: a vantagem da poda estruturada sobre o ensemble completo
+escala com o tamanho do pool, ou é um efeito específico de pools pequenos?
 
 **Datasets adicionais.** Replicar o pipeline sobre radares de
 características distintas e sobre o período completo do IPMet Radar
