@@ -53,12 +53,16 @@ def prepare_pipeline(cfg: dict) -> dict:
     # ---------------- Etapa 1: IPMet Radar Dataset ---------------------- #
     log("Etapa 1/9 — Carregando dataset e realizando split cronológico...")
     frames = list_dataset(cfg["images_dir"])
-    frames_sample = list(np.array(frames, dtype=object)[
-        rng.choice(len(frames), size=min(cfg["n_frames"], len(frames)), replace=False)
-    ])
-    frames_sample.sort(key=lambda f: f.acq_dt)
+    n_frames = cfg.get("n_frames")
+    if n_frames is not None and 0 < n_frames < len(frames):
+        frames_sample = list(np.array(frames, dtype=object)[
+            rng.choice(len(frames), size=n_frames, replace=False)
+        ])
+        frames_sample.sort(key=lambda f: f.acq_dt)
+    else:
+        frames_sample = frames
     train_f, val_f, test_f = chronological_split(frames_sample, train=0.6, val=0.2)
-    log(f"  frames totais no dataset: {len(frames)} | amostrados: {len(frames_sample)} "
+    log(f"  frames totais no dataset: {len(frames)} | processados: {len(frames_sample)} "
         f"(train={len(train_f)}, val={len(val_f)}, test={len(test_f)})")
 
     # ---------------- Etapa 2: Image Preprocessing ----------------------- #

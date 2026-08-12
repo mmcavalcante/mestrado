@@ -6,24 +6,24 @@ images_dir: "../../IPMet-Radar-Dataset/images"
 output_dir: "outputs"
 seed: 42
 
-# Etapa 1: amostragem do dataset (dataset completo tem 4014 frames)
-n_frames: 90          # ESCALAR PARA PAPER: usar os 4014 frames completos
+# Etapa 1: processamento do dataset (usar todas as imagens / 4014 frames completos)
+n_frames: 4014
 
 # Etapa 2: pré-processamento
 patch_size: 64
-scale: 2              # fator de super-resolução (2x); pipeline também suporta 4x
+scale: 2 # fator de super-resolução (2x); pipeline também suporta 4x
 blur_sigma: 1.0
 noise_std: 0.02
 patches_per_frame_train: 6
 patches_per_frame_eval: 4
 
 # Etapa 3: pool de candidatos
-seeds: [0, 1]          # ESCALAR PARA PAPER: mais seeds por arquitetura
-train_iters: 60        # ESCALAR PARA PAPER: milhares de iterações, GPU
+seeds: [0, 1] # ESCALAR PARA PAPER: mais seeds por arquitetura
+train_iters: 60 # ESCALAR PARA PAPER: milhares de iterações, GPU
 lr_rate: 0.003
 
 # Etapa 4: regimes
-n_regimes: 16           # ESCALAR PARA PAPER: 30-50 conforme diagrama da metodologia
+n_regimes: 16 # ESCALAR PARA PAPER: 30-50 conforme diagrama da metodologia
 
 # Etapa 6: thresholds de cobertura
 psnr_thresh: 18.0
